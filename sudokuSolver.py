@@ -17,7 +17,7 @@ import os
 import zipfile
 
 
-# graph plotting helper function
+# graph plotting helper function for grids from the dataset
 def plot_time(func, inputs, repeats, n_tests):
     x, y, y_err = [], [], []
     totalTime = 0
@@ -31,28 +31,46 @@ def plot_time(func, inputs, repeats, n_tests):
         totalTime += np.mean(t)
         y.append(totalTime)
         y_err.append(np.std(t) / np.sqrt(len(t)))
-    # ct = 0
-    # for grid in inputs:
-    #     ct += 1
-    #     # difficulty = row['difficulty']
-    #     timer = timeit.Timer(partial(func, grid))
-    #     t = timer.repeat(repeat=repeats, number=n_tests)
-    #     x.append(ct)
-    #     totalTime += np.mean(t)
-    #     y.append(totalTime)
-    #     y_err.append(np.std(t) / np.sqrt(len(t)))
-    # pyplot.errorbar(x, y, yerr=y_err, fmt='-o', label=func.__name__)
-    # # pyplot.errorbar(x, y, yerr=y_err, fmt='-o', label=func.__name__)
+    pyplot.errorbar(x, y, yerr=y_err, fmt='-o', label=func.__name__)
 
 
-# to run functions and plot graph
+# graph plotting helper function for individual grids
+def plot_time_individual(func, inputs, repeats, n_tests):
+    x, y, y_err = [], [], []
+    totalTime = 0
+    ct = 0
+    for grid in inputs:
+        ct += 1
+        # difficulty = row['difficulty']
+        timer = timeit.Timer(partial(func, grid))
+        t = timer.repeat(repeat=repeats, number=n_tests)
+        x.append(ct)
+        totalTime += np.mean(t)
+        y.append(totalTime)
+        y_err.append(np.std(t) / np.sqrt(len(t)))
+    pyplot.errorbar(x, y, yerr=y_err, fmt='-o', label=func.__name__)
+
+
+# to run functions and plot graph for data from the dataset
 def plot_times(functions, inputs, repeats=3, n_tests=1, file_name_prefix=""):
     for func in functions:
         plot_time(func, inputs, repeats, n_tests)
     pyplot.legend()
     pyplot.xlabel("Puzzle Count")
     pyplot.ylabel("Total Time")
-    # pyplot.show()
+    if not file_name_prefix:
+        pyplot.show()
+    else:
+        pyplot.savefig(file_name_prefix + str(round(time() * 1000)))
+
+
+# to run functions and plot graph
+def plot_times_individual(functions, inputs, repeats=3, n_tests=1, file_name_prefix=""):
+    for func in functions:
+        plot_time_individual(func, inputs, repeats, n_tests)
+    pyplot.legend()
+    pyplot.xlabel("Puzzle Count")
+    pyplot.ylabel("Total Time")
     if not file_name_prefix:
         pyplot.show()
     else:
@@ -74,13 +92,15 @@ def bruteForceSolver(grid):
 
 
 graph = initializeGraph()
-# Question grid
-# grids = ["1..5.37..6.3..8.9......98...1.......8761..........6...........7.8.9.76.47...6.312"]
+# Question grids
+grids = ["1..5.37..6.3..8.9......98...1.......8761..........6...........7.8.9.76.47...6.312"] * 10
 # hardData = ["..53.....8......2..7..1.5..4....53...1..7...6..32...8..6.5....9..4....3......97.."] * 10
-# data = pd.read_csv("sudoku_data_100_rows.csv")
-# data = pd.read_csv("sudoku_data_1000_rows.csv")
-# data = pd.read_csv("sudoku_data_10000_rows.csv")
-file_name = "sudoku_data.csv"
+
+# file_name = "sudoku_data.csv"
+file_name = "sudoku_data_100_rows.csv"
+# file_name = "sudoku_data_1000_rows.csv"
+# file_name = "sudoku_data_1000_rows.csv"
+
 if not os.path.exists(file_name):
     dataset_name = "radcliffe/3-million-sudoku-puzzles-with-ratings"
     subprocess.run(["kaggle", "datasets", "download", "-d", dataset_name])
@@ -99,9 +119,13 @@ data = pd.read_csv(file_name)
 #                data, repeats=1, n_tests=1, file_name_prefix="plot-")
 # plot_times([eliminationSolver, crossHatchBacktrackingSolver],
 #                data, repeats=1, n_tests=1, file_name_prefix="plot-")
-plot_times([eliminationSolver, dlxSolver],
-               data, repeats=1, n_tests=1, file_name_prefix="plot-")
-# plot_times([eliminationSolver, bitMaskSolver, crossHatchBacktrackingSolver, bruteForceSolver, dlxSolver],
-#                hardData, repeats=1, n_tests=1, file_name_prefix="plot-")
 # plot_times([eliminationSolver, dlxSolver],
+#                data, repeats=1, n_tests=1, file_name_prefix="plot-")
+# plot_times_individual([eliminationSolver, bitMaskSolver, crossHatchBacktrackingSolver, bruteForceSolver, dlxSolver],
+#                grids, repeats=1, n_tests=1, file_name_prefix="plot-")
+# plot_times_individual([eliminationSolver, bitMaskSolver, crossHatchBacktrackingSolver, bruteForceSolver, dlxSolver],
+#                hardData, repeats=1, n_tests=1, file_name_prefix="plot-")
+plot_times_individual([eliminationSolver, bitMaskSolver, crossHatchBacktrackingSolver, bruteForceSolver, dlxSolver],
+               grids, repeats=1, n_tests=1, file_name_prefix="plot-")
+# plot_times_individual([eliminationSolver, dlxSolver],
 #                hardData, repeats=1, n_tests=1, file_name_prefix="plot-")

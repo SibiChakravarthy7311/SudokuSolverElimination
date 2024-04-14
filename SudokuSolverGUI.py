@@ -243,23 +243,23 @@ def format_time(secs):
 
 
 def main():
-    delayTime = 100
+    delayTime = 300
 
-    win = pygame.display.set_mode((590, 610))
-    pygame.display.set_caption("Sudoku")
-    board = Grid(9, 9, 540, 540, win)
-    start = time.time()
-    strikes = 0
-
-    play_time = round(time.time() - start)
-    redraw_window(win, board, play_time, strikes)
-    pygame.display.update()
-    time.sleep(2)
-    board.solve_gui(delayTime)
-    play_time = round(time.time() - start)
-    redraw_window(win, board, play_time, strikes)
-    pygame.display.update()
-    time.sleep(2)
+    # win = pygame.display.set_mode((590, 610))
+    # pygame.display.set_caption("Sudoku")
+    # board = Grid(9, 9, 540, 540, win)
+    # start = time.time()
+    # strikes = 0
+    #
+    # play_time = round(time.time() - start)
+    # redraw_window(win, board, play_time, strikes)
+    # pygame.display.update()
+    # time.sleep(2)
+    # board.solve_gui(delayTime)
+    # play_time = round(time.time() - start)
+    # redraw_window(win, board, play_time, strikes)
+    # pygame.display.update()
+    # time.sleep(2)
 
     win = pygame.display.set_mode((590, 610))
     pygame.display.set_caption("Sudoku")
