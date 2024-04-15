@@ -113,8 +113,8 @@ if not os.path.exists(file_name):
             os.rename(extracted_csv_name, file_name)
 data = pd.read_csv(file_name)
 
-# plot_times([eliminationSolver, bitMaskSolver, crossHatchBacktrackingSolver, bruteForceSolver, dlxSolver],
-#                data, repeats=1, n_tests=1, file_name_prefix="plot-")
+plot_times([eliminationSolver, bitMaskSolver, crossHatchBacktrackingSolver, bruteForceSolver, dlxSolver],
+               data, repeats=1, n_tests=1, file_name_prefix="plot-")
 # plot_times([eliminationSolver, bitMaskSolver, crossHatchBacktrackingSolver, bruteForceSolver],
 #                data, repeats=1, n_tests=1, file_name_prefix="plot-")
 # plot_times([eliminationSolver, crossHatchBacktrackingSolver],
@@ -125,7 +125,7 @@ data = pd.read_csv(file_name)
 #                grids, repeats=1, n_tests=1, file_name_prefix="plot-")
 # plot_times_individual([eliminationSolver, bitMaskSolver, crossHatchBacktrackingSolver, bruteForceSolver, dlxSolver],
 #                hardData, repeats=1, n_tests=1, file_name_prefix="plot-")
-plot_times_individual([eliminationSolver, bitMaskSolver, crossHatchBacktrackingSolver, bruteForceSolver, dlxSolver],
-               grids, repeats=1, n_tests=1, file_name_prefix="plot-")
+# plot_times_individual([eliminationSolver, bitMaskSolver, crossHatchBacktrackingSolver, bruteForceSolver, dlxSolver],
+#                grids, repeats=1, n_tests=1, file_name_prefix="plot-")
 # plot_times_individual([eliminationSolver, dlxSolver],
 #                hardData, repeats=1, n_tests=1, file_name_prefix="plot-")
